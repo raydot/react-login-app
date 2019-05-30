@@ -11,13 +11,13 @@ class Question extends Component {
 
 	async componentDidMount() {
 		const {match: { params } } = this.props
-		const question = (await axios.get(`http://localhost:8081/${params.questionID}`)).data
-		console.log('question:', question)
+		const question = (await axios.get(`http://localhost:8081/${params.questionId}`)).data
 		this.setState({
 			question
 		})
 	}
 
+	// This should be changed to display a zero if there are no answers!
 	render() {
 		const {question} = this.state
 		if (question === null) return <p>Loading ...</p>
@@ -30,9 +30,11 @@ class Question extends Component {
 							<hr className="my-4" />
 							<p>Answers:</p>
 							{
-								question.answers.map((answer, idx) => (
+								question.answers.length > 0 
+								?  question.answers.map((answer, idx) => (
 									<p className="lead" key={idx}>{answer.answer}</p>
 								))
+								: <p className="lead">This question has no answers yet!</p>
 							}
 						</div>
 					</div>
