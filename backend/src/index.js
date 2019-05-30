@@ -17,6 +17,9 @@ app.use(helmet())
 //use bodyParser to parse application /json content-type
 app.use(bodyParser.json())
 
+// enable all CORS requests
+app.use(cors());
+
 // log HTTP requests
 app.use(morgan('combined'))
 
@@ -54,6 +57,7 @@ app.post('/', (req, res) => {
 
 // insert a new answer to a question
 app.post('/answer/:id', (req, res) => {
+	console.log("New answer!")
 	const {answer} = req.body
 
 	const question = questions.filter(q => (q.id === parseInt(req.params.id)))
@@ -63,6 +67,8 @@ app.post('/answer/:id', (req, res) => {
 	question[0].answers.push({
 		answer
 	})
+
+	console.log(question)
 
 	res.status(200).send()
 })
